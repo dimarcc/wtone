@@ -1,0 +1,145 @@
+<br>
+
+<!--user prompts-->
+
+<div class="row">
+  <br>
+  <div class="ui header">Let's find the right product combination for your needs...</div>
+  <br>
+</div>
+
+<div class="row">
+  <br>
+  <p>If you are not yet familiar with our products, please follow the "PRODUCTS" link above. Otherwise, please select an item from each drop-down and hit that "calculate" button!</p>
+  <br>
+</div>
+
+<!--dropdown menus-->
+
+<div class="ui stackable six column grid">
+
+  <div class="column">
+    {{#ui-dropdown name="psudrop" class="fluid selection" selected=psuS onChange=(action (mut psuS)) as |execute mapper|}}
+      <div class="default text">Which PSU?</div>
+      <i class="dropdown icon"></i>
+      <div class="ui menu">
+        {{#each model.psus as |psu|}}
+          <option class="item" value="{{psu.id}}" data-value="{{map-value mapper psu}}">
+            {{psu.name}}
+          </option>
+        {{/each}}
+      </div>
+    {{/ui-dropdown}}
+  </div>
+
+  <div class="column">
+    {{#ui-dropdown id="ldrdrop" class="fluid selection" selected="ldr" onChange=(action (mut ldrS)) as |execute mapper|}}
+      <div class="default text">Which LDR?</div>
+      <i class="dropdown icon"></i>
+      <div class="ui menu">
+        {{#each model.ldrs as |ldr|}}
+          <div class="item" data-value="{{map-value mapper ldr}}">
+            {{ldr.name}}
+          </div>
+        {{/each}}
+      </div>
+    {{/ui-dropdown}}
+  </div>
+
+  <div class="column">
+    {{#ui-dropdown id="jmpdrop" class="fluid selection" selected="jmp" onChange=(action (mut jmpS)) as |execute mapper|}}
+      <div class="default text">Which JMP?</div>
+      <i class="dropdown icon"></i>
+      <div class="ui menu">
+        {{#each model.jmps as |jmp|}}
+          <div class="item" data-value="{{map-value mapper jmp}}">
+            {{jmp.name}}
+          </div>
+        {{/each}}
+      </div>
+    {{/ui-dropdown}}
+  </div>
+
+  <div class="column">
+    {{#ui-dropdown id="wpxdrop" class="fluid selection" selected="wpx" onChange=(action (mut wpxS)) as |execute mapper|}}
+      <div class="default text">Which WPX?</div>
+      <i class="dropdown icon"></i>
+      <div class="ui menu">
+        {{#each model.wpxes as |wpx|}}
+          <div class="item" data-value="{{map-value mapper wpx}}">
+            {{wpx.name}}
+          </div>
+        {{/each}}
+      </div>
+    {{/ui-dropdown}}
+  </div>
+
+  <!--user input for # of fixtures-->
+
+  <div class="column">
+    <div class="ui fluid input">
+      {{input id="numfixin" type="text" name="numfix" value=numfixS placeholder="# of fixtures?"}}
+    </div>
+  </div>
+
+  <!--calculate button-->
+
+  <div class="column">
+    <button class="ui fluid button primary" {{action 'calculateValue'}}>
+      Calculate
+    </button>
+  </div>
+
+</div>
+
+<br>
+
+<!--multiple leaders prompt-->
+
+<div class="row">
+
+  <div class="ui slider checkbox">
+    <input type="checkbox" name="twoldr">
+    <label>Would you like to use two leader cables? *FUNCTIONALITY NOT CONFIGURED YET*</label>
+  </div>
+
+</div>
+
+<div class="row">
+  <p id="validatetxt"></p>
+</div>
+
+{{#if calculated}}
+  <br>
+  <div class="row">
+    <h1>Here are your results!</h1>
+  </div>
+  <br>
+
+  <div class="ui horizontal segments">
+
+    <div class="ui segment">
+      Voltages of your system:
+      {{#each fixedRealVoltages as |voltage index|}}
+        <li>fixture {{index}}: {{voltage}} V</li>
+      {{/each}}
+    </div>
+
+    <div class="ui segment">
+      Dissipated power of your system:
+      {{#each fixedRealPowers as |power index|}}
+        <li>fixture {{index}}: {{power}} W</li>
+      {{/each}}
+      <br>
+      Source Current: {{sourceCurrent}} A
+    </div>
+
+  </div>
+
+  <div class="ui segment">
+      {{approved}}
+  </div>
+  <br>
+
+
+{{/if}}
