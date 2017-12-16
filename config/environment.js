@@ -48,6 +48,9 @@ module.exports = function(environment) {
     ENV['ember-cli-mirage'] = {
       enabled:true
     }
+    fingerprint: {
+      prepend: 'https://calculator.ggled.net/'
+    }
   }
 
   return ENV;
